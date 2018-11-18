@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { MotorcyclesTemplateComponent } from './motorcycles-template/motorcycles-template.component';
+import { MotorcyclesTemplateComponent } from './components/motorcycles-template/motorcycles-template.component';
 import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [

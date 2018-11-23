@@ -45,9 +45,10 @@ export class CarsTemplateComponent implements OnInit {
       this.errorMessage = null;
       this.cars = response.body;
     }, (error: HttpResponse<any>) => {
-      console.error(error);
-      if (!this.shouldDetectDefectServiceFromInterceptor && error.status === 0)
+      if (!this.shouldDetectDefectServiceFromInterceptor && error.status === 0) {
         this.errorMessage = 'Uitgevallen service passief gedecteerd door de HttpClient.';
+        this.defectApiServiceService.defectServiceDetected(CarService.baseUrl);
+      }
     });
   }
 

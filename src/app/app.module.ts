@@ -7,9 +7,9 @@ import { AppComponent } from './app.component';
 import { CarModule } from './car/car.module';
 import { MotorcycleModule } from './motorcycle/motorcycle.module';
 import { OrderModule } from './order/order.module';
-import { Router } from '@angular/router';
 import { APIInterceptor } from './common/interceptors/api-interceptor';
 import { ErrorInterceptor } from './common/interceptors/error-interceptor';
+import { PocCommonModule } from './common/poc-common.module';
 
 @NgModule({
   declarations: [
@@ -21,7 +21,8 @@ import { ErrorInterceptor } from './common/interceptors/error-interceptor';
     AppRoutingModule,
     CarModule,
     MotorcycleModule,
-    OrderModule
+    OrderModule,
+    PocCommonModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: APIInterceptor, multi: true },
@@ -30,7 +31,5 @@ import { ErrorInterceptor } from './common/interceptors/error-interceptor';
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(private router: Router) {
-    console.log(router);
-  }
+
 }

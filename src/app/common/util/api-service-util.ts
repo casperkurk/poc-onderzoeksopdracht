@@ -8,7 +8,6 @@ export class ApiServiceUtil {
     public static getApiUrl(requestUrl: string): string {
         const serviceBaseUrl = this.getServiceBaseUrl(requestUrl);
         const apiRequestAppendage = requestUrl.replace(`${serviceBaseUrl[0]}/`, '');
-        console.log(serviceBaseUrl, apiRequestAppendage);
 
         return `${serviceBaseUrl[1]}/${apiRequestAppendage}`;
     }

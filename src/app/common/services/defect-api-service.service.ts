@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { ApiServiceUtil } from '../util/api-service-util';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class DefectApiServiceService {
   private defectServiceNames = new Array<string>();
   private defectServicesState = new BehaviorSubject<string[]>([]);

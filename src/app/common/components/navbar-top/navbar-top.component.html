@@ -1,0 +1,33 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" routerLink="autos">POC Onderzoeksopdracht</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-item nav-link" routerLink="autos">Auto's</a>
+        <a class="nav-item nav-link" routerLink="motoren">Motoren</a>
+        <a class="nav-item nav-link" routerLink="bestellen">Bestellen</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div *ngIf="serviceIsDefective_angularService()" class="alert alert-danger alert-dismissible fade show" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <strong>Er zijn defecte services gedetecteerd en gecommuniceerd door een gedeelde Angular-service: <span *ngFor="let serviceName of defectServicesFromSharedService">{{serviceName}}</span></strong> 
+</div>
+
+<div *ngIf="serviceIsDefective_dataStore()" class="alert alert-danger alert-dismissible fade show" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <strong>{{getDefectServicesMessage()}}</strong> 
+</div>
+<script>
+  $(".alert").alert();
+</script>

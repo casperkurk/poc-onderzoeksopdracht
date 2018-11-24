@@ -12,6 +12,11 @@ export class OrderService {
 
   constructor(private http: HttpClient) { }
 
+  public placeOrder(vehicleName: string): Observable<string> {
+    const url = `api/${OrderService.serviceName}/placeorder`;
+    return this.http.post<string>(url, { vehicle: vehicleName });
+  }
+
   public checkHealth(): Observable<any> {
     const url = `api/${OrderService.serviceName}/checkhealth`;
     return this.http

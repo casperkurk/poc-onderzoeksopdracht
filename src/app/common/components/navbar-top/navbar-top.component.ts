@@ -4,6 +4,7 @@ import { takeUntil } from 'rxjs/internal/operators/takeUntil';
 import { Subject } from 'rxjs/internal/Subject';
 import { Service } from '../../../akita/defect-services.model';
 import { DefectApiServiceService } from '../../services/defect-api-service.service';
+import { CarService } from 'src/app/car/services/car.service';
 
 @Component({
   selector: 'app-navbar-top',
@@ -37,12 +38,12 @@ export class NavbarTopComponent implements OnInit, OnDestroy {
     this.unsubscribeOnDestroy$.complete();
   }
 
-  serviceIsDefective_angularService(): boolean {
-    return this.defectServicesFromSharedService.length > 0;
+  serviceIsDefective_dataStore(serviceName: string): boolean {
+    return this.defectServicesFromDataStore.find(service => service.name === serviceName && service.isDefective ) !== undefined;
   }
 
-  serviceIsDefective_dataStore(): boolean {
-    return this.defectServicesFromDataStore.find(service => service.isDefective) !== undefined;
+  serviceIsDefective_angularService(): boolean {
+    return this.defectServicesFromSharedService.find(service => service === CarService.serviceName) !== undefined;
   }
 
   getDefectServicesMessage(): string {
@@ -51,6 +52,10 @@ export class NavbarTopComponent implements OnInit, OnDestroy {
       .map(service => service.name);
 
     return `Er zijn defecte services gedetecteerd en gecommuniceerd door een data store framework: ${defectiveServiceNames.join(', ')}`;
+  }
+
+  get tooltipMessage(): string {
+    return 'Kan geen connectie maken met de server';
   }
 
 }

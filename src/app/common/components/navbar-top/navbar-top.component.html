@@ -7,26 +7,24 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-item nav-link" routerLink="autos">Auto's</a>
-        <a class="nav-item nav-link" routerLink="motoren">Motoren</a>
-        <a class="nav-item nav-link" routerLink="bestellen">Bestellen</a>
+        <a *ngIf="!serviceIsDefective_angularService()" class="nav-item nav-link" routerLink="autos">Auto's</a>
+        <a *ngIf="serviceIsDefective_angularService()" class="nav-item nav-link text-danger banned" routerLink="autos" [matTooltip]="tooltipMessage">Auto's <i class="fas fa-exclamation-circle"></i></a>
+        
+        <a *ngIf="!serviceIsDefective_dataStore('motorcycleservice')" class="nav-item nav-link" routerLink="motoren">Motoren</a>
+        <a *ngIf="serviceIsDefective_dataStore('motorcycleservice')" class="nav-item nav-link text-danger banned" routerLink="motoren" [matTooltip]="tooltipMessage">Motoren <i class="fas fa-exclamation-circle"></i></a>
+        
+        <a *ngIf="!serviceIsDefective_dataStore('orderservice')" class="nav-item nav-link" routerLink="bestellen">Bestellen</a>
+        <a *ngIf="serviceIsDefective_dataStore('orderservice')" class="nav-item nav-link text-danger banned" [matTooltip]="tooltipMessage">Bestellen <i class="fas fa-exclamation-circle"></i></a>
       </div>
     </div>
   </div>
 </nav>
 
-<div *ngIf="serviceIsDefective_angularService()" class="alert alert-danger alert-dismissible fade show" role="alert">
+<div *ngIf="serviceIsDefective_angularService() || serviceIsDefective_dataStore('motorcycleservice') || serviceIsDefective_dataStore('orderservice')" class="alert alert-danger alert-dismissible fade show mb-3" role="alert">
   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
-  <strong>Er zijn defecte services gedetecteerd en gecommuniceerd door een gedeelde Angular-service: <span *ngFor="let serviceName of defectServicesFromSharedService">{{serviceName}}</span></strong> 
-</div>
-
-<div *ngIf="serviceIsDefective_dataStore()" class="alert alert-danger alert-dismissible fade show" role="alert">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-  <strong>{{getDefectServicesMessage()}}</strong> 
+  <strong>Er ging iets mis bij het connecteren naar een server. Gelieve een administrator te contacteren.</strong> 
 </div>
 <script>
   $(".alert").alert();

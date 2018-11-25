@@ -42,7 +42,7 @@ export class AppComponent implements OnInit, OnDestroy {
           startWith(0),
           switchMap(() => forkJoin(
               this.motorcycleService.checkHealth().pipe(this.handleError()),
-              this.carService.checkHealth().pipe(this.handleError()),
+              // this.carService.checkHealth().pipe(this.handleError()),
               this.orderService.checkHealth().pipe(this.handleError())
         )))
         .subscribe((responses: HttpResponse<string>[]) => {

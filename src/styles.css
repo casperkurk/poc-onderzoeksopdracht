@@ -4,3 +4,7 @@
     height: 15vw;
     object-fit: cover
 }
+
+a.banned:hover {
+    cursor:not-allowed
+ }

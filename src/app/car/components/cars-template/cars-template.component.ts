@@ -11,19 +11,20 @@ import { MatRadioChange } from '@angular/material/radio';
 })
 export class CarsTemplateComponent implements OnInit {
   cars: any;
-  errorMessage: string;
   shouldDetectDefectServiceFromInterceptor: boolean;
+  carServiceIsDefective: boolean;
+  errorMessage: string;
+  isLoadingCarData: boolean;
 
   constructor(private carService: CarService, private defectApiServiceService: DefectApiServiceService) { }
 
   ngOnInit() {
     this.defectApiServiceService.defectServices$.subscribe(defectServiceNames => {
       if (!this.shouldDetectDefectServiceFromInterceptor) return;
-      if (defectServiceNames.find(defectService => defectService === CarService.serviceName))
-        this.errorMessage = 'Uitgevallen service passief gedecteerd door een interceptor. ' +
-        'Deze boodschap is gecommuniceert via een gedeelde Angular-service';
-      else
-        this.errorMessage = null;
+      if (defectServiceNames.find(defectService => defectService === CarService.serviceName)) {
+        this.errorMessage = 'De defecte service is gedetecteerd door de Interceptor';
+        this.carServiceIsDefective = true;
+      }
     });
 
     this.refreshCarsData();
@@ -34,19 +35,24 @@ export class CarsTemplateComponent implements OnInit {
   }
 
   errorDetectionChanged(event: MatRadioChange) {
-    if (event.value === 1) this.shouldDetectDefectServiceFromInterceptor = false;
+    if (event.value === '1') this.shouldDetectDefectServiceFromInterceptor = false;
     else this.shouldDetectDefectServiceFromInterceptor = true;
 
     this.refreshCarsData();
   }
 
   private refreshCarsData() {
+    this.isLoadingCarData = true;
     this.carService.getCars().subscribe(response => {
-      this.errorMessage = null;
+      this.isLoadingCarData = false;
+      this.carServiceIsDefective = false;
       this.cars = response.body;
     }, (error: HttpResponse<any>) => {
+      this.isLoadingCarData = false;
+
       if (!this.shouldDetectDefectServiceFromInterceptor && error.status === 0) {
-        this.errorMessage = 'Uitgevallen service passief gedecteerd door de HttpClient.';
+        this.errorMessage = 'De defecte service is gedetecteerd door de HttpClient';
+        this.carServiceIsDefective = true;
         this.defectApiServiceService.defectServiceDetected(CarService.baseUrl);
       }
     });

@@ -10,6 +10,9 @@ import { OrderModule } from './order/order.module';
 import { APIInterceptor } from './common/interceptors/api-interceptor';
 import { ErrorInterceptor } from './common/interceptors/error-interceptor';
 import { PocCommonModule } from './common/poc-common.module';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -22,9 +25,11 @@ import { PocCommonModule } from './common/poc-common.module';
     CarModule,
     MotorcycleModule,
     OrderModule,
-    PocCommonModule
+    PocCommonModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
     { provide: HTTP_INTERCEPTORS, useClass: APIInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],

@@ -37,7 +37,7 @@ export class OrderTemplateComponent implements OnInit {
   }
 
   vehicletypeChanged(matselect: MatSelectChange) {
-    if (matselect.value === CarService.name) {
+    if (matselect.value === CarService.serviceName) {
       this.carService.getCars().subscribe(cars => this.vehicleOptions = cars.body);
     } else {
       this.motorcycleService.getMotorcycles().subscribe(motorcycles => this.vehicleOptions = motorcycles);

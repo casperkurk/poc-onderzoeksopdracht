@@ -8,10 +8,10 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
         <a *ngIf="!serviceIsDefective_angularService()" class="nav-item nav-link" routerLink="autos">Auto's</a>
-        <a *ngIf="serviceIsDefective_angularService()" class="nav-item nav-link text-danger banned" routerLink="autos" [matTooltip]="tooltipMessage">Auto's <i class="fas fa-exclamation-circle"></i></a>
+        <a *ngIf="serviceIsDefective_angularService()" class="nav-item nav-link text-danger" routerLink="autos" [matTooltip]="tooltipMessage">Auto's <i class="fas fa-exclamation-circle"></i></a>
         
         <a *ngIf="!serviceIsDefective_dataStore('motorcycleservice')" class="nav-item nav-link" routerLink="motoren">Motoren</a>
-        <a *ngIf="serviceIsDefective_dataStore('motorcycleservice')" class="nav-item nav-link text-danger banned" routerLink="motoren" [matTooltip]="tooltipMessage">Motoren <i class="fas fa-exclamation-circle"></i></a>
+        <a *ngIf="serviceIsDefective_dataStore('motorcycleservice')" class="nav-item nav-link text-danger" routerLink="motoren" [matTooltip]="tooltipMessage">Motoren <i class="fas fa-exclamation-circle"></i></a>
         
         <a *ngIf="!serviceIsDefective_dataStore('orderservice')" class="nav-item nav-link" routerLink="bestellen">Bestellen</a>
         <a *ngIf="serviceIsDefective_dataStore('orderservice')" class="nav-item nav-link text-danger banned" [matTooltip]="tooltipMessage">Bestellen <i class="fas fa-exclamation-circle"></i></a>

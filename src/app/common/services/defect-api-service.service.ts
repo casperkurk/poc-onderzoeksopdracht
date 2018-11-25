@@ -15,7 +15,6 @@ export class DefectApiServiceService {
     if (!this.defectServiceNames.find(service => service === defectServiceName))
       this.defectServiceNames.push(defectServiceName);
 
-    console.log('defectServiceName: ', defectServiceName);
     this.defectServicesState.next(this.defectServiceNames);
   }
 }

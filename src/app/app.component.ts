@@ -2,13 +2,12 @@ import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { MotorcycleService } from './motorcycle/services/motorcycle.service';
 import { interval } from 'rxjs/internal/observable/interval';
 import { startWith, switchMap, takeUntil, catchError } from 'rxjs/operators';
-import { Subject, Observable, empty, forkJoin, OperatorFunction, observable, of } from 'rxjs';
+import { Subject, forkJoin, OperatorFunction, of } from 'rxjs';
 import { akitaDevtools } from '@datorama/akita';
-import { ServiceName, DefectServices } from './akita/defect-services.model';
+import { ServiceName } from './akita/defect-services.model';
 import { DefectServicesQuery } from './akita/defect-services.query';
 import { DefectServicesService } from './akita/defect-services.service';
 import { HttpResponse } from '@angular/common/http';
-import { CarService } from './car/services/car.service';
 import { OrderService } from './order/services/order.service';
 
 @Component({
@@ -19,10 +18,10 @@ import { OrderService } from './order/services/order.service';
 export class AppComponent implements OnInit, OnDestroy {
 
   unsubscribeOnDestroy$ = new Subject<void>();
+  loadingData = true;
 
   constructor(
     private motorcycleService: MotorcycleService,
-    private carService: CarService,
     private orderService: OrderService,
     private ngZone: NgZone,
     private defectServicesQuery: DefectServicesQuery,
@@ -36,13 +35,12 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private listenForDefectiveServices() {
-      interval(2000)
+      interval(5000)
         .pipe(
           takeUntil(this.unsubscribeOnDestroy$),
           startWith(0),
           switchMap(() => forkJoin(
               this.motorcycleService.checkHealth().pipe(this.handleError()),
-              // this.carService.checkHealth().pipe(this.handleError()),
               this.orderService.checkHealth().pipe(this.handleError())
         )))
         .subscribe((responses: HttpResponse<string>[]) => {
@@ -53,14 +51,19 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private handleError(): OperatorFunction<any, any> {
     return catchError(error => {
-      this.defectServicesService.updateDefectServices(this.defectServicesQuery.getActive(), error as ServiceName, true);
+      if (typeof error === 'string')
+        this.defectServicesService.updateDefectServices(this.defectServicesQuery.getActive(), error as ServiceName, true);
       return of(error);
     });
   }
 
   private handleOkResponses(responses: any[]) {
-    responses.forEach(response => {
-      if (typeof response === 'string') return;
+    const currenDefectServicesSatus = this.defectServicesQuery.getActive();
+    currenDefectServicesSatus.services.forEach(service => {
+      if (!service.isDefective) return;
+
+      const response = responses.find(resp => resp.body as ServiceName === service.name);
+      if (!response) return;
 
       this.defectServicesService
         .updateDefectServices(this.defectServicesQuery.getActive(), response.body as ServiceName, false);

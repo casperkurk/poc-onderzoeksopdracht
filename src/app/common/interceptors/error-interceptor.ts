@@ -19,7 +19,7 @@ export class ErrorInterceptor implements HttpInterceptor {
                 tap(
                     (event: HttpEvent<any>) => { },
                     (error: any) => {
-                        if (error instanceof HttpErrorResponse && error.status === 0) {
+                        if (error instanceof HttpErrorResponse && (error.status === 0 || error.status === 504)) {
                             this.defectApiServiceService.defectServiceDetected(req.url);
                         }
                     }

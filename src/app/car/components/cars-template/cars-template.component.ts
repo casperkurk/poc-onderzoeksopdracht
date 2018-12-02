@@ -50,12 +50,11 @@ export class CarsTemplateComponent implements OnInit {
     }, (error: HttpResponse<any>) => {
       this.isLoadingCarData = false;
 
-      if (!this.shouldDetectDefectServiceFromInterceptor && error.status === 0) {
+      if (!this.shouldDetectDefectServiceFromInterceptor && (error.status === 0 || error.status === 504)) {
         this.errorMessage = 'De defecte service is gedetecteerd door de HttpClient';
         this.carServiceIsDefective = true;
         this.defectApiServiceService.defectServiceDetected(CarService.baseUrl);
       }
     });
   }
-
 }

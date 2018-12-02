@@ -23,7 +23,7 @@ export class OrderService {
       .get<any>(url, {observe: 'response'})
       .pipe(
         catchError((error: HttpResponse<any>) => {
-          if (error.status === 0)
+          if (error.status === 0 || error.status === 504)
             return throwError(OrderService.serviceName);
 
           return throwError(error);

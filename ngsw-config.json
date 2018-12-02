@@ -6,10 +6,11 @@
       "installMode": "prefetch",
       "resources": {
         "files": [
-          "/favicon.ico",
+          "poc-onderzoeksopdracht/favicon.ico",
           "/index.html",
           "/*.css",
-          "/*.js"
+          "/*.js",
+          "/fa-*"    
         ]
       }
     }, {
@@ -25,14 +26,15 @@
   ],
   "dataGroups": [
     {
-      "name": "api-performance",
+      "name": "api-calls",
       "urls": [
-        "/#/motoren"
+        "/api/motorcycles"
       ],
       "cacheConfig": {
         "maxSize": 100,
         "maxAge": "1h",
-        "strategy": "performance"
+        "strategy": "performance",
+        "timeout": "5s"
       }
     }
   ]
